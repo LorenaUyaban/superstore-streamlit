@@ -138,7 +138,7 @@ with col4:
     sample = dff.sample(min(1500, len(dff)), random_state=42)
     fig5 = px.scatter(sample, x="Discount", y="Profit", color="Category",
                       color_discrete_map={"Furniture": COLOR_AMBER, "Office Supplies": COLOR_BLUE, "Technology": COLOR_GREEN},
-                      opacity=0.45, trendline="lowess",
+                      opacity=0.45, 
                       title="Scatter: Descuento vs Profit por categoría")
     fig5.update_layout(plot_bgcolor="white", xaxis_title="Descuento", yaxis_title="Profit ($)",
                        xaxis_tickformat=".0%", legend=dict(orientation="h", y=1.12), margin=dict(t=60,b=30))
