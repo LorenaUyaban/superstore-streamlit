@@ -84,7 +84,7 @@ with col1:
     fig.update_layout(title="Ventas vs Profit por categoría ($)", barmode="group", plot_bgcolor="white",
                       xaxis_title=None, yaxis_title="USD", legend=dict(orientation="h", y=1.12), margin=dict(t=60,b=30))
     fig.update_yaxes(tickprefix="$", gridcolor="#f0f0f0")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig,  use_container_width=True, key="fig1")
 
 with col2:
     fig2 = px.bar(cat_df.sort_values("Margin%"), x="Margin%", y="Category", orientation="h",
@@ -95,7 +95,7 @@ with col2:
     fig2.update_layout(plot_bgcolor="white", coloraxis_showscale=False,
                        xaxis_title="Margen %", yaxis_title=None, margin=dict(t=60,b=30))
     fig2.update_xaxes(ticksuffix="%", gridcolor="#f0f0f0")
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, use_container_width=True, key="fig2")
 
 st.caption("💡 Furniture genera $742K en ventas pero solo 2.5% de margen. Technology y Office Supplies operan al 17%.")
 st.markdown("---")
@@ -112,7 +112,7 @@ fig3.update_layout(plot_bgcolor="white", coloraxis_showscale=False,
                    xaxis_title="Profit (USD)", yaxis_title=None, height=480, margin=dict(t=60,b=30))
 fig3.update_xaxes(tickprefix="$", gridcolor="#f0f0f0")
 fig3.add_vline(x=0, line_width=1.5, line_color="#888", line_dash="dash")
-st.plotly_chart(fig3, use_container_width=True)
+st.plotly_chart(fig3, use_container_width=True, key="fig3")
 st.caption("💡 Tables pierde $17,725 vendiendo $207K. Copiers es la más rentable con $55,617.")
 st.markdown("---")
 
@@ -132,7 +132,7 @@ with col3:
                        xaxis_title="Nivel de descuento", yaxis_title="Profit promedio ($)", margin=dict(t=60,b=30))
     fig4.update_yaxes(tickprefix="$", gridcolor="#f0f0f0")
     fig4.add_hline(y=0, line_width=1.5, line_color="#888", line_dash="dash")
-    st.plotly_chart(fig4, use_container_width=True)
+    st.plotly_chart(fig4, use_container_width=True, key="fig4")
 
 with col4:
     sample = dff.sample(min(1500, len(dff)), random_state=42)
@@ -144,7 +144,7 @@ with col4:
                        xaxis_tickformat=".0%", legend=dict(orientation="h", y=1.12), margin=dict(t=60,b=30))
     fig5.update_xaxes(gridcolor="#f0f0f0")
     fig5.update_yaxes(gridcolor="#f0f0f0", tickprefix="$")
-    st.plotly_chart(fig5, use_container_width=True)
+    st.plotly_chart(fig5, use_container_width=True, key="fig5")
 
 st.caption("💡 El umbral crítico es el 20%. Por encima, el profit promedio colapsa de +$25 a -$156.")
 st.markdown("---")
@@ -161,7 +161,7 @@ fig6.update_layout(title="Evolución mensual de Ventas y Profit (2014–2017)", 
                    legend=dict(orientation="h", y=1.12), margin=dict(t=60,b=50), xaxis=dict(tickangle=45, gridcolor="#f0f0f0"))
 fig6.update_yaxes(title_text="Ventas ($)", tickprefix="$", gridcolor="#f0f0f0", secondary_y=False)
 fig6.update_yaxes(title_text="Profit ($)", tickprefix="$", secondary_y=True)
-st.plotly_chart(fig6, use_container_width=True)
+st.plotly_chart(fig6, use_container_width=True, key="fig6")
 
 yr_df = dff.groupby("Year", as_index=False).agg(Sales=("Sales","sum"), Profit=("Profit","sum"))
 yr_df["Growth%"] = yr_df["Sales"].pct_change() * 100
@@ -172,7 +172,7 @@ with col5:
     fig7.update_traces(textposition="outside")
     fig7.update_layout(plot_bgcolor="white", coloraxis_showscale=False, xaxis_title=None, yaxis_title="Ventas ($)", margin=dict(t=60,b=30))
     fig7.update_yaxes(tickprefix="$", gridcolor="#f0f0f0")
-    st.plotly_chart(fig7, use_container_width=True)
+    st.plotly_chart(fig7, use_container_width=True, key="fig7")
 
 with col6:
     yr_growth = yr_df.dropna(subset=["Growth%"])
@@ -183,7 +183,7 @@ with col6:
     fig8.update_layout(plot_bgcolor="white", coloraxis_showscale=False, xaxis_title=None, yaxis_title="Crecimiento %", margin=dict(t=60,b=30))
     fig8.update_yaxes(ticksuffix="%", gridcolor="#f0f0f0")
     fig8.add_hline(y=0, line_width=1.2, line_color="#888", line_dash="dash")
-    st.plotly_chart(fig8, use_container_width=True)
+    st.plotly_chart(fig8, use_container_width=True, key="fig8")
 
 st.caption("💡 Caída del 2.8% en 2015, recuperación fuerte: +29% en 2016 y +20% en 2017. Nov es el mes récord cada año.")
 st.markdown("---")
@@ -199,7 +199,7 @@ with col7:
                   color_discrete_map=REGION_COLORS, title="Composición de ventas por región", hole=0.4)
     fig9.update_traces(textinfo="percent+label", textposition="outside")
     fig9.update_layout(showlegend=False, margin=dict(t=60,b=30))
-    st.plotly_chart(fig9, use_container_width=True)
+    st.plotly_chart(fig9, use_container_width=True, key="fig9")
 
 with col8:
     fig10 = px.bar(reg_df.sort_values("Sales", ascending=False), x="Region", y=["Sales","Profit"],
@@ -208,7 +208,7 @@ with col8:
     fig10.update_layout(plot_bgcolor="white", legend_title=None, legend=dict(orientation="h", y=1.12),
                         xaxis_title=None, yaxis_title="USD", margin=dict(t=60,b=30))
     fig10.update_yaxes(tickprefix="$", gridcolor="#f0f0f0")
-    st.plotly_chart(fig10, use_container_width=True)
+    st.plotly_chart(fig10, use_container_width=True, key="fig10")
 
 with col9:
     fig11 = px.bar(reg_df.sort_values("Margin%"), x="Margin%", y="Region", orientation="h",
@@ -219,7 +219,7 @@ with col9:
     fig11.update_layout(plot_bgcolor="white", coloraxis_showscale=False,
                         xaxis_title="Margen %", yaxis_title=None, margin=dict(t=60,b=30))
     fig11.update_xaxes(ticksuffix="%", gridcolor="#f0f0f0")
-    st.plotly_chart(fig11, use_container_width=True)
+    st.plotly_chart(fig11, use_container_width=True, key="fig11")
 
 st.caption("💡 West: $725K y 14.9% de margen — la mejor región. Central: $501K pero solo 7.9% — el peor del negocio.")
 st.markdown("---")
