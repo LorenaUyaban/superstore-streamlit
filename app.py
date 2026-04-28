@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 st.set_page_config(
     page_title="Superstore Sales Dashboard",
@@ -152,16 +151,24 @@ st.markdown("---")
 # H4 — Evolución Temporal
 st.subheader("H4 · Las ventas crecen +51% en 4 años con pico estacional cada noviembre")
 time_df = dff.groupby("Month", as_index=False).agg(Sales=("Sales","sum"), Profit=("Profit","sum")).sort_values("Month")
-fig6 = make_subplots(specs=[[{"secondary_y": True}]])
-fig6.add_trace(go.Scatter(x=time_df["Month"], y=time_df["Sales"], name="Ventas",
-                           line=dict(color=COLOR_BLUE, width=2), fill="tozeroy", fillcolor="rgba(55,138,221,0.10)"), secondary_y=False)
-fig6.add_trace(go.Scatter(x=time_df["Month"], y=time_df["Profit"], name="Profit",
-                           line=dict(color=COLOR_GREEN, width=2, dash="dot")), secondary_y=True)
-fig6.update_layout(title="Evolución mensual de Ventas y Profit (2014–2017)", plot_bgcolor="white",
-                   legend=dict(orientation="h", y=1.12), margin=dict(t=60,b=50), xaxis=dict(tickangle=45, gridcolor="#f0f0f0"))
-fig6.update_yaxes(title_text="Ventas ($)", tickprefix="$", gridcolor="#f0f0f0", secondary_y=False)
-fig6.update_yaxes(title_text="Profit ($)", tickprefix="$", secondary_y=True)
-st.plotly_chart(fig6, use_container_width=True, key="fig6")
+col_t1, col_t2 = st.columns(2)
+with col_t1:
+    fig6a = px.area(time_df, x="Month", y="Sales",
+                    title="Evolución mensual de Ventas (2014–2017)",
+                    color_discrete_sequence=[COLOR_BLUE])
+    fig6a.update_layout(plot_bgcolor="white", xaxis_title=None, yaxis_title="Ventas ($)",
+                        margin=dict(t=60,b=50), xaxis=dict(tickangle=45, gridcolor="#f0f0f0"))
+    fig6a.update_yaxes(tickprefix="$", gridcolor="#f0f0f0")
+    st.plotly_chart(fig6a, use_container_width=True, key="fig6a")
+with col_t2:
+    fig6b = px.line(time_df, x="Month", y="Profit",
+                    title="Evolución mensual de Profit (2014–2017)",
+                    color_discrete_sequence=[COLOR_GREEN])
+    fig6b.update_layout(plot_bgcolor="white", xaxis_title=None, yaxis_title="Profit ($)",
+                        margin=dict(t=60,b=50), xaxis=dict(tickangle=45, gridcolor="#f0f0f0"))
+    fig6b.update_yaxes(tickprefix="$", gridcolor="#f0f0f0")
+    fig6b.add_hline(y=0, line_width=1.2, line_color="#ccc", line_dash="dash")
+    st.plotly_chart(fig6b, use_container_width=True, key="fig6b")
 
 yr_df = dff.groupby("Year", as_index=False).agg(Sales=("Sales","sum"), Profit=("Profit","sum"))
 yr_df["Growth%"] = yr_df["Sales"].pct_change() * 100
